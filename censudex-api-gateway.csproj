@@ -20,5 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.6" />
   </ItemGroup>
+  <ItemGroup>
+    <Protobuf Include="src\Protos\User.proto" GrpcServices="Client" />
+  </ItemGroup>
 
 </Project>
