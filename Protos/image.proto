@@ -1,0 +1,28 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "ImageProto";
+
+package image;
+
+message Empty {}
+
+message UploadImage {
+  bytes image = 1;
+}
+
+message UploadedImageResponse {
+  string url = 1;
+  string id = 2;
+}
+
+message ImageRequest {
+  int32 id = 1;
+}
+
+service ImageService {
+  
+  rpc Upload(UploadImage) returns (UploadedImageResponse);
+  
+  rpc Destroy(ImageRequest) returns (Empty);
+  
+}

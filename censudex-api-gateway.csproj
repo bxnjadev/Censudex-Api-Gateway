@@ -24,4 +24,10 @@
     <Protobuf Include="src\Protos\User.proto" GrpcServices="Client" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\Controllers\" />
+    <Folder Include="src\Dto\" />
+    <Folder Include="src\Model\" />
+  </ItemGroup>
+
 </Project>
