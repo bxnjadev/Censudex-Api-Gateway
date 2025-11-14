@@ -6,6 +6,7 @@ using Grpc.Core;
 using censudex_api_gateway.src.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace censudex_api_gateway.src.Controller
 {
@@ -66,6 +67,7 @@ namespace censudex_api_gateway.src.Controller
         /// <param name="isactivefilter">Filter by active status.</param>
         /// <param name="usernamefilter">Filter by username.</param>
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetClients(
             [FromQuery(Name = "namefilter")] string namefilter = null,
             [FromQuery(Name = "emailfilter")] string emailfilter = null,
@@ -94,6 +96,7 @@ namespace censudex_api_gateway.src.Controller
         /// <param name="id">The ID of the client.</param>
         /// <returns>The client with the specified ID.</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetClientById([FromRoute] string id)
         {
             try
@@ -114,6 +117,7 @@ namespace censudex_api_gateway.src.Controller
         /// <param name="request">The client update request.</param>
         /// <returns>The updated client.</returns>
         [HttpPatch("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateClient([FromRoute] string id, [FromBody] UpdateUserRequest request)
         {
             try
@@ -144,6 +148,7 @@ namespace censudex_api_gateway.src.Controller
         /// <param name="id">The ID of the client to delete.</param>
         /// <returns>The deletion response.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteClient([FromRoute] string id)
         {
             try
