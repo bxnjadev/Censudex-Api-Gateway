@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using UserProto;
 using System.Net.Http.Headers;
+using order_service;
 
 Env.Load();
 
@@ -96,11 +97,17 @@ builder.Services.AddGrpcClient<UserService.UserServiceClient>(o =>
 {
     o.Address = new Uri(Environment.GetEnvironmentVariable("CLIENTS_SERVICE_URL") ?? "http://localhost:5000");
 });
+
+
+builder.Services.AddGrpcClient<OrderGrpcService.OrderGrpcServiceClient>(o =>
+{
+    o.Address = new Uri(Environment.GetEnvironmentVariable("ORDERS_SERVICE_URL") ?? "http://localhost:5247");
+});
+
 builder.Services.AddHttpClient("AuthService", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5010/"); 
 });
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
