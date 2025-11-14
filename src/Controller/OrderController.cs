@@ -22,6 +22,7 @@ namespace censudex_api_gateway.src.Controller
 
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto body)
         {
             try
@@ -54,12 +55,43 @@ namespace censudex_api_gateway.src.Controller
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllOrders()
+        [Authorize]
+        public async Task<IActionResult> GetAllOrders([FromQuery] string? customerId, [FromQuery] string? from, [FromQuery] string? to)
         {
             try
             {
                 var response = await _ordersClient.GetAllOrdersAsync(new order_service.Empty());
-                return Ok(response);
+
+                var orders = response.Orders.AsQueryable();
+
+                // FILTRO: por cliente
+                if (!string.IsNullOrWhiteSpace(customerId))
+                {
+                    orders = orders.Where(o => o.CustomerId == customerId);
+                }
+
+                // FILTRO: desde fecha (from)
+                if (!string.IsNullOrWhiteSpace(from))
+                {
+                    if (DateTime.TryParse(from, out var fromDate))
+                    {
+                        orders = orders.Where(o => DateTime.Parse(o.OrderDate) >= fromDate);
+                    }
+                }
+
+                // FILTRO: hasta fecha (to)
+                if (!string.IsNullOrWhiteSpace(to))
+                {
+                    if (DateTime.TryParse(to, out var toDate))
+                    {
+                        orders = orders.Where(o => DateTime.Parse(o.OrderDate) <= toDate);
+                    }
+                }
+
+                var filtered = new OrdersListResponse();
+                filtered.Orders.AddRange(orders);
+
+                return Ok(filtered);
             }
             catch (RpcException ex)
             {
@@ -68,6 +100,7 @@ namespace censudex_api_gateway.src.Controller
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetOrderById(string id)
         {
             try
@@ -86,6 +119,7 @@ namespace censudex_api_gateway.src.Controller
         }
 
         [HttpPut("{id}/status")]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus(string id, [FromBody] UpdateStatusRequest dto)
         {
             try
@@ -105,6 +139,7 @@ namespace censudex_api_gateway.src.Controller
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> CancelOrder(string id)
         {
             try
