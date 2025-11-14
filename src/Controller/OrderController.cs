@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using order_service;
 using censudex_api_gateway.src.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using censudex_api_gateway.src.Dtos.Orders;
 
 namespace censudex_api_gateway.src.Controller
 {
@@ -19,12 +20,31 @@ namespace censudex_api_gateway.src.Controller
             _ordersClient = ordersClient;
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest dto)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto body)
         {
             try
             {
-                var response = await _ordersClient.CreateOrderAsync(dto);
+                var grpcRequest = new CreateOrderRequest
+                {
+                    CustomerId = body.CustomerId,
+                    CustomerName = body.CustomerName,
+                    CustomerEmail = body.CustomerEmail
+                };
+
+                grpcRequest.Items.AddRange(
+                    body.Items.Select(i => new OrderItemDto
+                    {
+                        ProductId = i.ProductId,
+                        ProductName = i.ProductName,
+                        Quantity = i.Quantity,
+                        UnitPrice = i.UnitPrice
+                    })
+                );
+
+                var response = await _ordersClient.CreateOrderAsync(grpcRequest);
+
                 return Created($"/orders/{response.Id}", response);
             }
             catch (RpcException ex)

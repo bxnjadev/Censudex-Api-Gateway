@@ -8,9 +8,11 @@ using UserProto;
 using System.Net.Http.Headers;
 using order_service;
 
-Env.Load();
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+Env.Load();
 
 // Add services
 builder.Services.AddEndpointsApiExplorer();
