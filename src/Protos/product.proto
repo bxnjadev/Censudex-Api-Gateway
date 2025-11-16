@@ -7,12 +7,20 @@ package product;
 message Empty {}
 
 message CreationProduct {
+  string name = 1;
+  string category = 2;
+  int32 price = 3;
+  string description =  4;
+  string imageId = 5;
+  string url = 6;
+}
+
+message EditProduct {
+  string id = 1;
   string name = 2;
-  string category = 3;
+  string description = 3;
   int32 price = 4;
-  string description =  5;
-  string imageId = 6;
-  string url = 7;
+  string category = 5;
 }
 
 message Product {
@@ -24,6 +32,10 @@ message Product {
   string imageId = 6;
   int32 status = 7;
   string date = 8;
+}
+
+message ProductResponseList {
+  repeated ProductResponse products = 1;
 }
 
 message ProductRequest {
@@ -40,11 +52,14 @@ message ProductResponse {
   string date = 7;
 }
 
+
 service ProductService {
 
   rpc Get(ProductRequest) returns (ProductResponse) {}
   rpc Store(CreationProduct) returns (ProductResponse) {}
   rpc Delete(ProductRequest) returns (ProductResponse) {}
-  
-  
+  rpc Edit(EditProduct) returns (ProductResponse) {}
+  rpc All(Empty) returns (ProductResponseList)  {}
+
 }
+

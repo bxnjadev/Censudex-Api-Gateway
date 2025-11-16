@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using UserProto;
 using System.Net.Http.Headers;
+using censudex_api_gateway.Service;
+using ImageProto;
 using order_service;
-
+using ProductProto;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -106,10 +108,23 @@ builder.Services.AddGrpcClient<OrderGrpcService.OrderGrpcServiceClient>(o =>
     o.Address = new Uri(Environment.GetEnvironmentVariable("ORDERS_SERVICE_URL") ?? "http://localhost:5247");
 });
 
+builder.Services.AddGrpcClient<ProductService.ProductServiceClient>(o =>
+{
+    o.Address = new Uri(Environment.GetEnvironmentVariable("PRODUCTS_SERVICE_URL") ?? "http://localhost:5145");
+});
+
+builder.Services.AddGrpcClient<ImageService.ImageServiceClient>(o =>
+{
+    o.Address = new Uri(Environment.GetEnvironmentVariable("PRODUCTS_SERVICE_URL") ?? "http://localhost:5145");
+});
+
 builder.Services.AddHttpClient("AuthService", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5010/"); 
 });
+
+builder.Services.AddScoped<IProductService, GrpcProductService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -117,6 +132,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
