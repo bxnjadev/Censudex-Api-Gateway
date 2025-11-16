@@ -46,10 +46,10 @@ message ProductResponse {
   string id = 1;
   string name = 2;
   string category = 3;
-  string description = 4;
   int32 price = 5;
   string url = 6;
-  string date = 7;
+  bool status = 7;
+  string date = 8;
 }
 
 

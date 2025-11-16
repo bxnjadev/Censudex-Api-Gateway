@@ -44,7 +44,6 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
         {
             Name = productCreated.Name,
             Category = productCreated.Category,
-            Description = productCreated.Description,
             Date = productCreated.Date,
             Price = productCreated.Price,
             Url = productCreated.Url
@@ -68,7 +67,6 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
         {
             Name = deletedProduct.Name,
             Category = deletedProduct.Category,
-            Description = deletedProduct.Description,
             Date = deletedProduct.Date,
             Price = deletedProduct.Price,
             Url = deletedProduct.Url
@@ -98,7 +96,6 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
         {
             Name = editedProduct.Name,
             Category = editProduct.Category,
-            Description = editProduct.Description,
             Date = editedProduct.Date,
             Price = editProduct.Price,
             Url = editedProduct.Url
@@ -122,7 +119,6 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
         {
             Name = product.Name,
             Category = product.Category,
-            Description = product.Description,
             Date = product.Date,
             Price = product.Price,
             Url = product.Url
