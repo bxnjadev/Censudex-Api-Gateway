@@ -14,7 +14,8 @@ public interface IProductService
     Task<ResponseProduct?> Delete(string uuid);
 
     Task<ResponseProduct?> Edit(string uuid,
-        EditProduct editProduct);
+        EditProduct editProduct,
+        IFormFile? image);
 
     Task<ResponseProduct?> Get(string uuid);
 

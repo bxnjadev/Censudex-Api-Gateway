@@ -21,6 +21,8 @@ message EditProduct {
   string description = 3;
   int32 price = 4;
   string category = 5;
+  string url = 6;
+  string imageId = 7;
 }
 
 message Product {

@@ -1,5 +1,7 @@
 ﻿using censudex_api_gateway.Service;
 using censudex_api_gateway.src.Dtos.Product;
+using Grpc.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace censudex_api_gateway.src.Controller;
@@ -8,58 +10,107 @@ namespace censudex_api_gateway.src.Controller;
 [Route("api/[controller]")]
 public class ProductController(IProductService productService) : ControllerBase
 {
-    
     [HttpPost]
-    [Route("/api/products/create")]
+    [Route("/api/products/")]
     public async Task<IActionResult> Create(
         [FromForm] CreationProduct creationProduct,
         [FromForm] IFormFile image
     )
     {
-        var createdProduct = await productService.
-            Create(creationProduct, image);
-        return Ok(createdProduct);
+
+        try
+        {
+            var createdProduct = await productService.Create(creationProduct, image);
+            return Ok(createdProduct);    
+        } catch(RpcException _)
+        { }
+
+        return BadRequest("Ese nombre ya esta tomado");
     }
 
- 
 
     [HttpGet]
     [Route("/api/products/{uuid}")]
     public async Task<IActionResult> Get(string uuid)
-    {   
-        var product = await productService.Get(uuid);
-        if (product == null)
+    {
+
+        try
         {
-            return NotFound("Product not found");
+            new Guid(uuid);
+        }
+        catch (FormatException e)
+        {
+            return BadRequest("uuid bad format");
         }
 
-        return Ok(product);
+        try
+        {
+            var product = await productService.Get(uuid);
+            return Ok(product);
+        }
+        catch (RpcException _)
+        {
+        }
+        return NotFound("product not found");
     }
 
     [HttpDelete]
     [Route("/api/products/{uuid}")]
     public async Task<IActionResult> Delete(string uuid)
     {
-        var productDeleted = await productService.Delete(uuid);
-        if (productDeleted == null)
+        try
         {
-            return NotFound("Product not found");
+            new Guid(uuid);
+        }
+        catch (FormatException e)
+        {
+            return BadRequest("uuid bad format");
         }
 
-        return Ok(productDeleted);
+
+        try
+        {
+            var productDeleted = await productService.Delete(uuid);
+            return Ok(productDeleted);
+        }
+        catch (RpcException _)
+        {
+        }
+
+        return NotFound("product not found");
     }
 
     [HttpPatch]
     [Route("/api/products/{uuid}")]
-    public async Task<IActionResult> Edit(string uuid, EditProduct editProduct)
+    public async Task<IActionResult> Edit(string uuid, 
+        [FromForm] EditProduct editProduct,
+        [FromForm] IFormFile? image)
     {
-        var productEdited = await productService.Edit(uuid, editProduct);
-        if (productEdited == null)
+        try
         {
-            return NotFound("Product not found");
+            new Guid(uuid);
+        }
+        catch (FormatException _)
+        {
+            return BadRequest("uuid bad format");
+        }
+        
+        try
+        {
+            var productEdited = await productService.Edit(uuid, editProduct, image);
+            return Ok(productEdited);
+        }
+        catch (RpcException e)
+        {
+            if (e.StatusCode == Grpc.Core.StatusCode.InvalidArgument)
+            {
+                return BadRequest("Ese nombre ya esta tomado");
+            }
+
+            return NotFound("El producto no existe");
         }
 
-        return Ok(productEdited);
+        
     }
 
     [HttpGet]
@@ -68,5 +119,4 @@ public class ProductController(IProductService productService) : ControllerBase
     {
         return Ok(await productService.All());
     }
-    
 }

@@ -75,16 +75,41 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
 
     
     
-    public async Task<ResponseProduct?> Edit(string uuid, src.Dtos.Product.EditProduct editProduct)
+    public async Task<ResponseProduct?> Edit(string uuid, src.Dtos.Product.EditProduct editProduct,
+        IFormFile? image)
     {
 
+        var imageId = "";
+        var url = "";
+        
+        if (image != null)
+        {
+            byte[] imageBytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                await image.CopyToAsync(memoryStream);
+                imageBytes = memoryStream.ToArray();
+            }
+
+            var uploadedImage = await imageClient.UploadAsync(new UploadImage
+            {
+                Image = Google.Protobuf.ByteString.CopyFrom(imageBytes)
+            });
+            
+            imageId = uploadedImage.Id;
+            url = uploadedImage.Url;
+        }
+
+        
         var editedProduct = await productClient.EditAsync(new EditProduct
         {
             Id   = uuid,
             Name = editProduct.Name,
             Description = editProduct.Description,
             Price = editProduct.Price,
-            Category = editProduct.Category
+            Category = editProduct.Category,
+            ImageId = imageId,
+            Url = url
         });
 
         if (editedProduct == null)
@@ -95,16 +120,18 @@ public class GrpcProductService(ProductService.ProductServiceClient productClien
         return new ResponseProduct
         {
             Name = editedProduct.Name,
-            Category = editProduct.Category,
+            Category = editedProduct.Category,
             Date = editedProduct.Date,
-            Price = editProduct.Price,
+            Price = editedProduct.Price,
             Url = editedProduct.Url
         };
     }
 
     public async Task<ResponseProduct?> Get(string uuid)
     {
-        Console.WriteLine("Send >> ");
+        
+        
+        
         var product = await productClient.GetAsync(new ProductRequest
         {
             Id = uuid
