@@ -30,6 +30,8 @@ flowchart TD
         gRPC:]
         Translator -->|gRPC| OrdersSvc[Orders Service
         gRPC:5247]
+        Translator -->|gRPC| ProductSvc[Product Service
+        gRPC:5145]
     end
 ```
 
