@@ -1,0 +1,144 @@
+syntax = "proto3";
+
+option csharp_namespace = "order_service";
+
+package orders;
+
+// --------------------------------------------------------
+//  OrderGrpcService
+//  Servicio gRPC principal para gestionar órdenes.
+//  Permite crear, consultar, listar, actualizar y cancelar
+//  órdenes dentro del microservicio Order Service.
+// --------------------------------------------------------
+service OrderGrpcService {
+
+    // Crea una nueva orden y la envía a inventario para validar stock.
+    rpc CreateOrder (CreateOrderRequest) returns (OrderResponse);
+
+    // Obtiene una orden por su ID.
+    rpc GetOrderById (OrderByIdRequest) returns (OrderResponse);
+
+    // Obtiene todas las órdenes registradas.
+    rpc GetAllOrders (Empty) returns (OrdersListResponse);
+
+    // Actualiza el estado de una orden (Enviado, Entregado, etc.)
+    rpc UpdateOrderStatus (UpdateStatusRequest) returns (OperationResult);
+
+    // Cancela una orden usando su ID.
+    rpc CancelOrder (OrderByIdRequest) returns (OperationResult);
+}
+
+// --------------------------------------------------------
+//  CreateOrderRequest
+//  Datos necesarios para crear una orden.
+//  Incluye datos del cliente, correo, y los ítems comprados.
+// --------------------------------------------------------
+message CreateOrderRequest {
+
+    // ID del cliente que realiza la compra.
+    string customerId = 1;
+
+    // Nombre del cliente.
+    string customerName = 2;
+
+    // Correo del cliente (usado para notificaciones SendGrid).
+    string customerEmail = 3;
+
+    // Ítems incluidos en la orden.
+    repeated OrderItemDto items = 4;
+}
+
+// --------------------------------------------------------
+//  OrderItemDto
+//  Representa un producto dentro de una orden.
+// --------------------------------------------------------
+message OrderItemDto {
+
+    // ID del producto.
+    string productId = 1;
+
+    // Nombre del producto.
+    string productName = 2;
+
+    // Cantidad solicitada.
+    int32 quantity = 3;
+
+    // Precio unitario.
+    double unitPrice = 4;
+}
+
+// --------------------------------------------------------
+//  OrderResponse
+//  Respuesta con toda la información de la orden creada o consultada.
+// --------------------------------------------------------
+message OrderResponse {
+
+    // ID único de la orden.
+    string id = 1;
+
+    // ID del cliente.
+    string customerId = 2;
+
+    // Nombre del cliente.
+    string customerName = 3;
+
+    // Fecha de creación de la orden (en formato ISO 8601).
+    string orderDate = 4;
+
+    // Monto total de la orden.
+    double totalAmount = 5;
+
+    // Estado actual de la orden (Pendiente, En Proceso, Cancelada, etc.).
+    string status = 6;
+
+    // Lista de productos asociados a la orden.
+    repeated OrderItemDto items = 7;
+}
+
+// --------------------------------------------------------
+//  OrdersListResponse
+//  Contiene una lista completa de órdenes.
+// --------------------------------------------------------
+message OrdersListResponse {
+    repeated OrderResponse orders = 1;
+}
+
+// --------------------------------------------------------
+//  OrderByIdRequest
+//  Solicita una orden mediante su ID.
+// --------------------------------------------------------
+message OrderByIdRequest {
+    string id = 1;
+}
+
+// --------------------------------------------------------
+//  UpdateStatusRequest
+//  Solicita un cambio de estado en una orden.
+// --------------------------------------------------------
+message UpdateStatusRequest {
+
+    // ID de la orden a actualizar.
+    string id = 1;
+
+    // Nuevo estado (Enviado, Entregado, etc.)
+    string newStatus = 2;
+}
+
+// --------------------------------------------------------
+//  OperationResult
+//  Resultado estándar de operaciones: éxito + mensaje.
+// --------------------------------------------------------
+message OperationResult {
+
+    // Indica si la operación fue exitosa.
+    bool success = 1;
+
+    // Mensaje asociado al resultado.
+    string message = 2;
+}
+
+// --------------------------------------------------------
+//  Empty
+//  Mensaje vacío utilizado en métodos sin parámetros.
+// --------------------------------------------------------
+message Empty {}

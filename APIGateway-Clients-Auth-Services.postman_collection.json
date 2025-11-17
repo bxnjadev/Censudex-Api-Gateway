@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "d8840ad5-84ae-45af-9319-71a57bec3250",
+		"name": "APIGateway-Clients-Auth-Services",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38439958"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"admin@censudex.cl\",\r\n  \"password\": \"AdminPassw0rd!\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create_User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Jose\",\r\n  \"lastnames\": \"Miranda\",\r\n  \"email\": \"j.miranda@censudex.cl\",\r\n  \"username\": \"Jmiranda\",\r\n  \"birthdate\": \"1993-10-10\",\r\n  \"address\": \"Av.Angamos\",\r\n  \"phone\": \"+56985748695\",\r\n  \"password\": \"Passw@rd12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClients",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNGZiZTFkNy1mYTJlLTQ2ZjAtOWU4NC0xNDFmYjI4NDUxODAiLCJqdGkiOiIzZjYwNDkyZi01ZTNlLTQwYmEtYjQ2OS0xNTJmZGY1ZjE4MjciLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NjMwOTIxNzgsImV4cCI6MTc2MzA5NTc3OCwiaWF0IjoxNzYzMDkyMTc4LCJpc3MiOiJjZW5zdWRleC1hdXRoLXNlcnZpY2UiLCJhdWQiOiJjZW5zdWRleC1hcGktdXNlcnMifQ.AwmkodgU66U2j1aR9KNnw9Kg-FWVPfSN8wlrx3eD-fveZo5GDPrg9U6SWSIfxoFCGBuMOGGZSOhHsEdOJYhwMg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetClientById",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNGZiZTFkNy1mYTJlLTQ2ZjAtOWU4NC0xNDFmYjI4NDUxODAiLCJqdGkiOiIzZjYwNDkyZi01ZTNlLTQwYmEtYjQ2OS0xNTJmZGY1ZjE4MjciLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NjMwOTIxNzgsImV4cCI6MTc2MzA5NTc3OCwiaWF0IjoxNzYzMDkyMTc4LCJpc3MiOiJjZW5zdWRleC1hdXRoLXNlcnZpY2UiLCJhdWQiOiJjZW5zdWRleC1hcGktdXNlcnMifQ.AwmkodgU66U2j1aR9KNnw9Kg-FWVPfSN8wlrx3eD-fveZo5GDPrg9U6SWSIfxoFCGBuMOGGZSOhHsEdOJYhwMg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/clients/32b054d8-945e-4b43-b2f9-0b46634dfd6e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"clients",
+						"32b054d8-945e-4b43-b2f9-0b46634dfd6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkMjk2NzI4My1kOTA5LTQ0YzQtODc1NC1hYzY5NjE5Njk3NGEiLCJqdGkiOiIwYzBkZWY2Yi0yMWQ2LTRhNzEtOGQ0My1mNTBmMDg5NGJjYWUiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTc2MzA5MjUyNiwiZXhwIjoxNzYzMDk2MTI2LCJpYXQiOjE3NjMwOTI1MjYsImlzcyI6ImNlbnN1ZGV4LWF1dGgtc2VydmljZSIsImF1ZCI6ImNlbnN1ZGV4LWFwaS11c2VycyJ9.D50pSNs7xHAJo3CzjkxsWYC-HRujiPYBmktrqAnxsipifwKKwkY-12gDScEMBSlCmXTMdaPeQuG4yrYGBHixmQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"32b054d8-945e-4b43-b2f9-0b46634dfd6e\",\r\n  \"name\": \"Clemente\",\r\n  \"lastnames\": \"Pedraza\",\r\n  \"email\": \"clemente.pedraza@censudex.cl\",\r\n  \"username\": \"CPedra345\",\r\n  \"birthdate\": \"1993-10-10\",\r\n  \"address\": \"Av.Angamos12\",\r\n  \"phone\": \"+56985748694\",\r\n  \"password\": \"Passw@rd12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/clients/32b054d8-945e-4b43-b2f9-0b46634dfd6e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"clients",
+						"32b054d8-945e-4b43-b2f9-0b46634dfd6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNGZiZTFkNy1mYTJlLTQ2ZjAtOWU4NC0xNDFmYjI4NDUxODAiLCJqdGkiOiIzZjYwNDkyZi01ZTNlLTQwYmEtYjQ2OS0xNTJmZGY1ZjE4MjciLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NjMwOTIxNzgsImV4cCI6MTc2MzA5NTc3OCwiaWF0IjoxNzYzMDkyMTc4LCJpc3MiOiJjZW5zdWRleC1hdXRoLXNlcnZpY2UiLCJhdWQiOiJjZW5zdWRleC1hcGktdXNlcnMifQ.AwmkodgU66U2j1aR9KNnw9Kg-FWVPfSN8wlrx3eD-fveZo5GDPrg9U6SWSIfxoFCGBuMOGGZSOhHsEdOJYhwMg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/clients/32b054d8-945e-4b43-b2f9-0b46634dfd6e",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"clients",
+						"32b054d8-945e-4b43-b2f9-0b46634dfd6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ValidateToken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNGZiZTFkNy1mYTJlLTQ2ZjAtOWU4NC0xNDFmYjI4NDUxODAiLCJqdGkiOiIzZjYwNDkyZi01ZTNlLTQwYmEtYjQ2OS0xNTJmZGY1ZjE4MjciLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NjMwOTIxNzgsImV4cCI6MTc2MzA5NTc3OCwiaWF0IjoxNzYzMDkyMTc4LCJpc3MiOiJjZW5zdWRleC1hdXRoLXNlcnZpY2UiLCJhdWQiOiJjZW5zdWRleC1hcGktdXNlcnMifQ.AwmkodgU66U2j1aR9KNnw9Kg-FWVPfSN8wlrx3eD-fveZo5GDPrg9U6SWSIfxoFCGBuMOGGZSOhHsEdOJYhwMg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/validate-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"validate-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"token\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIwNGZiZTFkNy1mYTJlLTQ2ZjAtOWU4NC0xNDFmYjI4NDUxODAiLCJqdGkiOiIzZjYwNDkyZi01ZTNlLTQwYmEtYjQ2OS0xNTJmZGY1ZjE4MjciLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3NjMwOTIxNzgsImV4cCI6MTc2MzA5NTc3OCwiaWF0IjoxNzYzMDkyMTc4LCJpc3MiOiJjZW5zdWRleC1hdXRoLXNlcnZpY2UiLCJhdWQiOiJjZW5zdWRleC1hcGktdXNlcnMifQ.AwmkodgU66U2j1aR9KNnw9Kg-FWVPfSN8wlrx3eD-fveZo5GDPrg9U6SWSIfxoFCGBuMOGGZSOhHsEdOJYhwMg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
