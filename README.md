@@ -85,4 +85,4 @@ dotnet run
 
 
 ## Consultas disponibles
-Se encuentran en los archivos api-gateway-orders-http.postman_collection.json, APIGateway-Clients-Auth-Services.postman_collection.json
+Se encuentran en los archivos api-gateway-orders-http.postman_collection.json, APIGateway-Clients-Auth-Services.postman_collection.json y Products_API_postman_collection.json
